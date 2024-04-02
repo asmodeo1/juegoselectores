@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>selectores</title>
+    <style>
+      ambulancia,
+      autobus,
+      bicicleta,
+      camion,
+      furgoneta,
+      grua,
+      moto,
+      policia {
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+        margin: 10px;
+        background-repeat: no-repeat;
+        background-position: center;
+        outline: solid;
+      }
+      resultado {
+        width: 32px;
+        height: 32px;
+        margin: 5px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+      ambulancia {
+        background-image: url(imagenes/ambulancia.png);
+      }
+      autobus {
+        background-image: url(imagenes/autobus.png);
+      }
+      bicicleta {
+        background-image: url(imagenes/bicicleta.png);
+      }
+      camion {
+        background-image: url(imagenes/camion.png);
+      }
+      furgoneta {
+        background-image: url(imagenes/furgoneta.png);
+      }
+      grua {
+        background-image: url(imagenes/grua.png);
+      }
+      moto {
+        background-image: url(imagenes/moto.png);
+      }
+      policia {
+        background-image: url(imagenes/policia.png);
+      }
+      body {
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+
+      input[type="button"] {
+        margin: 5px;
+      }
+      input[type="text"] {
+        width: 700px;
+        font-size: 1.2rem;
+      }
+      .eleccion {
+        display: flex;
+      }
+    </style>
+    <script>
+      function comprobar(seccion, numero, selector) {
+        selector = selector.replaceAll(",", ", " + seccion);
+        document.querySelectorAll(seccion + " *").forEach((el) => {
+          el.style.backgroundColor = "transparent";
+        });
+        document.querySelectorAll(seccion + " " + selector).forEach((el) => {
+          el.style.backgroundColor = "red";
+        });
+        let correcta = true;
+        document.querySelectorAll(seccion + " *").forEach((el) => {
+          console.log(el.dataset.correcta != undefined);
+          console.log(el.style.backgroundColor);
+          if (
+            (el.dataset.correcta != undefined &&
+              el.style.backgroundColor != "red") ||
+            (el.dataset.correcta == undefined &&
+              el.style.backgroundColor == "red")
+          ) {
+            correcta = false;
+          }
+          if (!correcta) {
+            document.getElementById("res" + numero).style.backgroundImage =
+              "url('imagenes/mal.png')";
+          } else {
+            document.getElementById("res" + numero).style.backgroundImage =
+              "url('imagenes/correcto.png')";
+          }
+        });
+      }
+      window.onload = function () {
+        for (let i = 1; i < 100; i++) {
+          let boton = document.getElementById("b" + i);
+          if (boton) {
+            boton.addEventListener("click", () =>
+              comprobar(".s" + i, i, document.getElementById("t" + i).value)
+            );
+          }
+          let texto = document.getElementById("t" + i);
+          if(texto) {
+            texto.addEventListener("keypress", (event) => {
+              if (event.key === "Enter") {
+                comprobar(".s" + i, i, document.getElementById("t" + i).value)
+              }
+            }
+            );
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <section>
+      <p>Selecciona todos los autobuses</p>
+      <div class="eleccion">
+        <input type="text" id="t1" />
+        <input type="button" id="b1" value="probar" />
+        <resultado id="res1"></resultado>
+      </div>
+      <section class="s1">
+        <autobus data-correcta></autobus>
+        <autobus data-correcta></autobus>
+        <camion></camion>
+        <moto></moto>
+        <autobus data-correcta></autobus>
+      </section>
+      <pre>
+        &lt;autobus&gt;&lt;/autobus&gt;
+        &lt;autobus&gt;&lt;/autobus&gt;
+        &lt;camion&gt;&lt;/camion&gt;
+        &lt;moto&gt;&lt;/moto&gt;
+        &lt;autobus&gt;&lt;/autobus&gt;
+    </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los autobuses y motos</p>
+      <div class="eleccion">
+        <input type="text" id="t2" />
+        <input type="button" id="b2" value="probar" />
+        <resultado id="res2"></resultado>
+      </div>
+      <section class="s2">
+        <autobus data-correcta></autobus>
+        <autobus data-correcta></autobus>
+        <camion></camion>
+        <moto data-correcta></moto>
+        <autobus data-correcta></autobus>
+      </section>
+      <pre>
+              &lt;autobus&gt;&lt;/autobus&gt;
+              &lt;autobus&gt;&lt;/autobus&gt;
+              &lt;camion&gt;&lt;/camion&gt;
+              &lt;moto&gt;&lt;/moto&gt;
+              &lt;autobus&gt;&lt;/autobus&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los camiones de galicia</p>
+      <div class="eleccion">
+        <input type="text" id="t13" />
+        <input type="button" id="b13" value="probar" />
+        <resultado id="res13"></resultado>
+      </div>
+      <section class="s13">
+        <autobus></autobus>
+        <camion></camion>
+        <galicia>
+          <grua></grua>
+          <camion data-correcta></camion>
+          <policia></policia>
+          <camion data-correcta></camion>
+        </galicia>
+        <camion></camion>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua&gt;&lt;/grua&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;policia&gt;&lt;/policia&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el primer autobus</p>
+      <div class="eleccion">
+        <input type="text" id="t4" />
+        <input type="button" id="b4" value="probar" />
+        <resultado id="res4"></resultado>
+      </div>
+      <section class="s4">
+        <vehiculos>
+          <autobus data-correcta></autobus>
+          <autobus></autobus>
+          <camion></camion>
+          <moto></moto>
+          <autobus></autobus>
+        </vehiculos>
+      </section>
+      <pre>
+                &lt;vehiculos&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;moto&gt;&lt;/moto&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/vehiculos&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el segundo autobus</p>
+      <div class="eleccion">
+        <input type="text" id="t5" />
+        <input type="button" id="b5" value="probar" />
+        <resultado id="res5"></resultado>
+      </div>
+      <section class="s5">
+        <vehiculos>
+          <autobus></autobus>
+          <autobus data-correcta></autobus>
+          <camion></camion>
+          <moto></moto>
+          <autobus></autobus>
+        </vehiculos>
+      </section>
+      <pre>
+                &lt;vehiculos&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;moto&gt;&lt;/moto&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/vehiculos&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el último autobus</p>
+      <div class="eleccion">
+        <input type="text" id="t6" />
+        <input type="button" id="b6" value="probar" />
+        <resultado id="res6"></resultado>
+      </div>
+      <section class="s6">
+        <vehiculos>
+          <autobus></autobus>
+          <autobus></autobus>
+          <camion></camion>
+          <camion></camion>
+          <autobus data-correcta></autobus>
+        </vehiculos>
+      </section>
+      <pre>
+                &lt;vehiculos&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/vehiculos&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el primer autobus y el segundo camion</p>
+      <div class="eleccion">
+        <input type="text" id="t7" />
+        <input type="button" id="b7" value="probar" />
+        <resultado id="res7"></resultado>
+      </div>
+      <section class="s7">
+        <vehiculos>
+          <autobus data-correcta></autobus>
+          <autobus></autobus>
+          <camion></camion>
+          <camion data-correcta></camion>
+          <autobus></autobus>
+        </vehiculos>
+      </section>
+      <pre>
+                &lt;vehiculos&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/vehiculos&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona los vehículos pares</p>
+      <div class="eleccion">
+        <input type="text" id="t8" />
+        <input type="button" id="b8" value="probar" />
+        <resultado id="res8"></resultado>
+      </div>
+      <section class="s8">
+        <vehiculos>
+          <autobus></autobus>
+          <autobus data-correcta></autobus>
+          <camion></camion>
+          <camion data-correcta></camion>
+          <autobus></autobus>
+        </vehiculos>
+      </section>
+      <pre>
+                &lt;vehiculos&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/vehiculos&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona los autobuses (no sabemos cual es la etiqueta xxxx)</p>
+      <div class="eleccion">
+        <input type="text" id="t9" />
+        <input type="button" id="b9" value="probar" />
+        <resultado id="res9"></resultado>
+      </div>
+      <section class="s9">
+        <una id="v2000">
+          <autobus data-correcta></autobus>
+          <autobus data-correcta></autobus>
+          <camion></camion>
+          <camion></camion>
+          <autobus data-correcta></autobus>
+        </una>
+      </section>
+      <pre>
+                &lt;xxxx id="v2000"&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/xxxx&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona los autobuses (no sabemos cual es la etiqueta xxxx)</p>
+      <div class="eleccion">
+        <input type="text" id="t10" />
+        <input type="button" id="b10" value="probar" />
+        <resultado id="res10"></resultado>
+      </div>
+      <section class="s10">
+        <una class="v2001">
+          <autobus data-correcta></autobus>
+          <autobus data-correcta></autobus>
+          <camion></camion>
+          <camion></camion>
+          <autobus data-correcta></autobus>
+        </una>
+      </section>
+      <pre>
+                &lt;xxxx class="v2001"&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                    &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;/xxxx&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el primer vehiculo después del primer autobus</p>
+      <div class="eleccion">
+        <input type="text" id="t11" />
+        <input type="button" id="b11" value="probar" />
+        <resultado id="res11"></resultado>
+      </div>
+      <section class="s11">
+        <autobus></autobus>
+        <grua data-correcta></grua>
+        <grua></grua>
+        <camion></camion>
+        <autobus></autobus>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;grua&gt;&lt;/grua&gt;
+                &lt;grua&gt;&lt;/grua&gt;
+                &lt;camion&gt;&lt;/camin&gt;
+                &lt;autobus&gt;&lt;/autobus&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los coches de policía después de la grua</p>
+      <div class="eleccion">
+        <input type="text" id="t12" />
+        <input type="button" id="b12" value="probar" />
+        <resultado id="res12"></resultado>
+      </div>
+      <section class="s12">
+        <autobus></autobus>
+        <grua></grua>
+        <policia data-correcta></policia>
+        <camion></camion>
+        <policia data-correcta></policia>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;grua&gt;&lt;/grua&gt;
+                &lt;policia&gt;&lt;/policia&gt;
+                &lt;camion&gt;&lt;/camin&gt;
+                &lt;policia&gt;&lt;/policia&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>
+        Selecciona todos los vehiculos de galicia (pensad que podría haber
+        cualquier vehículo)
+      </p>
+      <div class="eleccion">
+        <input type="text" id="t14" />
+        <input type="button" id="b14" value="probar" />
+        <resultado id="res14"></resultado>
+      </div>
+      <section class="s14">
+        <autobus></autobus>
+        <camion></camion>
+        <galicia>
+          <grua data-correcta></grua>
+          <camion data-correcta></camion>
+          <policia data-correcta></policia>
+          <camion data-correcta></camion>
+        </galicia>
+        <camion></camion>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua&gt;&lt;/grua&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;policia&gt;&lt;/policia&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los vehiculos con el atributo taller</p>
+      <div class="eleccion">
+        <input type="text" id="t15" />
+        <input type="button" id="b15" value="probar" />
+        <resultado id="res15"></resultado>
+      </div>
+      <section class="s15">
+        <autobus></autobus>
+        <camion taller data-correcta></camion>
+        <galicia>
+          <grua></grua>
+          <camion></camion>
+          <policia taller data-correcta></policia>
+          <camion></camion>
+        </galicia>
+        <camion taller data-correcta></camion>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;camion taller&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua&gt;&lt;/grua&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;policia taller&gt;&lt;/policia&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion taller&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los vehiculos con el atributo taller y alquilado</p>
+      <div class="eleccion">
+        <input type="text" id="t16" />
+        <input type="button" id="b16" value="probar" />
+        <resultado id="res16"></resultado>
+      </div>
+      <section class="s16">
+        <autobus></autobus>
+        <camion taller></camion>
+        <galicia>
+          <grua></grua>
+          <camion></camion>
+          <policia taller alquilado data-correcta></policia>
+          <camion></camion>
+        </galicia>
+        <camion taller alquilado data-correcta></camion>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;camion taller&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua&gt;&lt;/grua&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;policia taller alquilado&gt;&lt;/policia&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion taller alquilado&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los vehiculos con el atributo taller de galicia</p>
+      <div class="eleccion">
+        <input type="text" id="t17" />
+        <input type="button" id="b17" value="probar" />
+        <resultado id="res17"></resultado>
+      </div>
+      <section class="s17">
+        <autobus></autobus>
+        <camion taller></camion>
+        <galicia>
+          <grua></grua>
+          <camion></camion>
+          <policia taller alquilado data-correcta></policia>
+          <camion></camion>
+        </galicia>
+        <camion taller alquilado></camion>
+      </section>
+      <pre>
+                &lt;autobus&gt;&lt;/autobus&gt;
+                &lt;camion taller&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua&gt;&lt;/grua&gt;
+                    &lt;camion&gt;&lt;/camion&gt;
+                    &lt;policia taller alquilado&gt;&lt;/policia&gt;
+                    &lt;camion&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion taller alquilado&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el vehículo con matrícula br453</p>
+      <div class="eleccion">
+        <input type="text" id="t18" />
+        <input type="button" id="b18" value="probar" />
+        <resultado id="res18"></resultado>
+      </div>
+      <section class="s18">
+        <autobus matricula="as123"></autobus>
+        <camion matricula="as342" taller></camion>
+        <galicia>
+          <grua matricula="br453" data-correcta></grua>
+          <camion matricula="re123"></camion>
+          <policia matricula="br456" taller alquilado></policia>
+          <camion matricula="re987"></camion>
+        </galicia>
+        <camion matricula="ma111" taller alquilado></camion>
+      </section>
+      <pre>
+                &lt;autobus matricula="as123"&gt;&lt;/autobus&gt;
+                &lt;camion matricula="as342" taller&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua matricula="br453"&gt;&lt;/grua&gt;
+                    &lt;camion matricula="re123"&gt;&lt;/camion&gt;
+                    &lt;policia matricula="br456" taller alquilado&gt;&lt;/policia&gt;
+                    &lt;camion matricula="re987"&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion matricula="ma111" taller alquilado&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el vehículo cuya matricula comienze por br</p>
+      <div class="eleccion">
+        <div class="eleccion">
+          <input type="text" id="t19" />
+          <input type="button" id="b19" value="probar" />
+          <resultado id="res19"></resultado>
+        </div>
+      </div>
+      <section class="s19">
+        <autobus matricula="as123"></autobus>
+        <camion matricula="as342" taller></camion>
+        <galicia>
+          <grua matricula="br453" data-correcta></grua>
+          <camion matricula="re123"></camion>
+          <policia matricula="br456" data-correcta taller alquilado></policia>
+          <camion matricula="re987"></camion>
+        </galicia>
+        <camion matricula="ma111" taller alquilado></camion>
+      </section>
+      <pre>
+                &lt;autobus matricula="as123"&gt;&lt;/autobus&gt;
+                &lt;camion matricula="as342" taller&gt;&lt;/camion&gt;
+                &lt;galicia&gt;
+                    &lt;grua matricula="br453"&gt;&lt;/grua&gt;
+                    &lt;camion matricula="re123"&gt;&lt;/camion&gt;
+                    &lt;policia matricula="br456" taller alquilado&gt;&lt;/policia&gt;
+                    &lt;camion matricula="re987"&gt;&lt;/camin&gt;
+                &lt;/galicia&gt;
+                &lt;camion matricula="ma111" taller alquilado&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona el primer camion de cada provincia</p>
+      <div class="eleccion">
+        <div class="eleccion">
+          <input type="text" id="t22" />
+          <input type="button" id="b22" value="probar" />
+          <resultado id="res22"></resultado>
+        </div>
+      </div>
+      <section class="s22">
+        <ourense class="provincia">
+          <camion data-correcta></camion>
+          <camion></camion>
+      </ourense>
+      <pontevedra class="provincia">
+        <camion data-correcta></camion>
+        <camion></camion>
+        <camion></camion>
+        </pontevedra>
+        <camion></camion>
+      </section>
+      <pre>
+        &lt;ourense class="provincia"&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+        &lt;/ourense&gt;  
+        &lt;pontevedra class="provincia"&gt;  
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+        &lt;/pontevedra&gt;  
+        &lt;camion&gt;&lt;/camion&gt;
+        </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona todos los camiones a partir del segundo</p>
+      <div class="eleccion">
+        <div class="eleccion">
+          <input type="text" id="t20" />
+          <input type="button" id="b20" value="probar" />
+          <resultado id="res20"></resultado>
+        </div>
+      </div>
+      <section class="s20">
+        <camion></camion>
+        <camion data-correcta></camion>
+        <camion data-correcta></camion>
+        <camion data-correcta></camion>
+        <camion data-correcta></camion>
+      </section>
+      <pre>
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+
+    <section>
+      <p>Selecciona los camiones del 2 al 4 (ambos incluidos)</p>
+      <div class="eleccion">
+        <div class="eleccion">
+          <input type="text" id="t21" />
+          <input type="button" id="b21" value="probar" />
+          <resultado id="res21"></resultado>
+        </div>
+      </div>
+      <section class="s21">
+        <camion></camion>
+        <camion data-correcta></camion>
+        <camion data-correcta></camion>
+        <camion data-correcta></camion>
+        <camion></camion>
+      </section>
+      <pre>
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+                &lt;camion&gt;&lt;/camion&gt;
+          </pre
+      >
+    </section>
+  </body>
+</html>
