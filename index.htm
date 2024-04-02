@@ -71,33 +71,37 @@
     </style>
     <script>
       function comprobar(seccion, numero, selector) {
-        selector = selector.replaceAll(",", ", " + seccion);
-        document.querySelectorAll(seccion + " *").forEach((el) => {
-          el.style.backgroundColor = "transparent";
-        });
-        document.querySelectorAll(seccion + " " + selector).forEach((el) => {
-          el.style.backgroundColor = "red";
-        });
-        let correcta = true;
-        document.querySelectorAll(seccion + " *").forEach((el) => {
-          console.log(el.dataset.correcta != undefined);
-          console.log(el.style.backgroundColor);
-          if (
-            (el.dataset.correcta != undefined &&
-              el.style.backgroundColor != "red") ||
-            (el.dataset.correcta == undefined &&
-              el.style.backgroundColor == "red")
-          ) {
-            correcta = false;
-          }
-          if (!correcta) {
-            document.getElementById("res" + numero).style.backgroundImage =
-              "url('imagenes/mal.png')";
-          } else {
-            document.getElementById("res" + numero).style.backgroundImage =
-              "url('imagenes/correcto.png')";
-          }
-        });
+        try {
+          selector = selector.replaceAll(",", ", " + seccion);
+          document.querySelectorAll(seccion + " *").forEach((el) => {
+            el.style.backgroundColor = "transparent";
+          });
+          document.querySelectorAll(seccion + " " + selector).forEach((el) => {
+            el.style.backgroundColor = "red";
+          });
+          let correcta = true;
+          document.querySelectorAll(seccion + " *").forEach((el) => {
+            console.log(el.dataset.correcta != undefined);
+            console.log(el.style.backgroundColor);
+            if (
+              (el.dataset.correcta != undefined &&
+                el.style.backgroundColor != "red") ||
+              (el.dataset.correcta == undefined &&
+                el.style.backgroundColor == "red")
+            ) {
+              correcta = false;
+            }
+            if (!correcta) {
+              document.getElementById("res" + numero).style.backgroundImage =
+                "url('imagenes/mal.png')";
+            } else {
+              document.getElementById("res" + numero).style.backgroundImage =
+                "url('imagenes/correcto.png')";
+            }
+          });
+        } catch (error) {
+          alert("El selector introducido es incorrecto");
+        }
       }
       window.onload = function () {
         for (let i = 1; i < 100; i++) {
@@ -108,13 +112,12 @@
             );
           }
           let texto = document.getElementById("t" + i);
-          if(texto) {
+          if (texto) {
             texto.addEventListener("keypress", (event) => {
               if (event.key === "Enter") {
-                comprobar(".s" + i, i, document.getElementById("t" + i).value)
+                comprobar(".s" + i, i, document.getElementById("t" + i).value);
               }
-            }
-            );
+            });
           }
         }
       };
@@ -655,11 +658,11 @@
         <ourense class="provincia">
           <camion data-correcta></camion>
           <camion></camion>
-      </ourense>
-      <pontevedra class="provincia">
-        <camion data-correcta></camion>
-        <camion></camion>
-        <camion></camion>
+        </ourense>
+        <pontevedra class="provincia">
+          <camion data-correcta></camion>
+          <camion></camion>
+          <camion></camion>
         </pontevedra>
         <camion></camion>
       </section>
